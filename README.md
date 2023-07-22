@@ -41,6 +41,16 @@
         <li><a href="#deleting-app">Deleting App</a></li>
       </ul>
      </li>
+     <li><a href="#application-basics">Application Basics</a>
+      <ul>
+        <li><a href="#source-paths">Source Paths</a></li>
+        <li><a href="#manifests">Manifests</a></li>
+        <li><a href="#buildpacks">Buildpacks</a></li>
+        <li><a href="#scaling">Scaling</a></li>
+        <li><a href="#logs">Logs</a></li>
+        <li><a href="#resiliency">Resiliency</a></li>
+      </ul>
+     </li>
   </ol>
 </details>
 
@@ -221,3 +231,172 @@ You can rename certain objects in Cloud Foundry. When an object is renamed, the 
   ```
 
 The `-r` flag tells Cloud Foundry to also delete the route.
+
+<!-- Application Basics -->
+## Application Basics
+
+### Source Paths
+
+Source path locates a path to the application when running `cf push` command. If it is not specified, then the content in the current directory that the `cf push` command from are pushed up.
+This may not be the case for all the application, sometimes it must be necessary to imply the source path when using `cf push` command not to get an unexpected result.
+
+To specify the source path `--path (or -p)` flag can be used or it can be specified in the manifest file as well;
+
+ ```yml
+ applications:
+   ...
+   path: /path/to/app/bits
+ ```
+
+.zip files which contains app code can be pushed to the Cloud Foundry without unzipped. Specifying a path for the .zip files is mandatory.
+Cloud Foundry won't unzip the file before deploying it, if the source path is not defined. 
+
+* Push a zip file with path
+  ```sh
+  cd resources/zip-file
+  ```
+  ```sh
+  cf push zip-with-src-path -p app.zip -b staticfile_buildpack -m 32M -k 64M --random-route
+  ```
+* Push a zip file without a path
+  ```sh
+  cf push zip-no-src-path -b staticfile_buildpack -m 32M -k 64M --random-route
+  ```
+* Delete app
+  ```shell
+  cf delete -r zip-no-src-path
+  ```
+  
+### Manifests
+
+Manifests support the parameterization of values. Variables are declared inside double parenthesis like `((my-variable))`
+
+ ```yml
+ applications:
+ - name: training-app
+   instances: ((instances))
+   memory: 64M
+   buildpacks:
+   - go_buildpack
+ ```
+
+* Push with a variable
+  ```sh
+  cd resources/training-app
+  ```
+  ```sh
+  cf push -f manifest.yml -p training-app.zip --var instances=1
+  ```
+
+It is also possible to create `vars` file for each environment (development, staging, prod etc) rather than command line.
+
+* Create vars file `training-app_dev.yml` with `instances: 1`
+* Push with the flag `--vars-file` 
+  ```sh
+  cf push -f manifest.yml -p training-app.zip --vars-file=training-app_dev.yml
+  ```
+
+### Buildpacks
+
+Buildpacks play a vital role in containerizing your application, essentially furnishing the required runtime environment for your application. 
+Each buildpack is designed to cater to a specific programming language or framework. For instance, the Python buildpack is capable of constructing runtimes for Python apps, 
+the Java buildpack for Java apps, and the Go buildpack for Go-lang apps, among others.
+The staticfile buildpack, which we've utilized up until now, employs nginx to serve static content.
+
+* List available buildpacks
+  ```sh
+  cf buildpacks
+  ```
+
+### Environment Variables
+
+To inject configuration values into application, environment variables are used.
+
+* Push the example app
+  ```sh
+  cf push training-app -f manifest.yml -p training-app.zip --random-route
+  ```
+* Set environment variables
+  ```sh
+  cf set-env training-app TRAINING_KEY_1 training-value-1
+  cf set-env training-app TRAINING_KEY_2 training-value-2
+  cf set-env training-app TRAINING_KEY_3 training-value-3
+  ```
+* Check the browser
+* Restart the app
+  ```sh
+  cf restage training-app
+  ```
+* Inspect environment variables
+  ```sh
+  cf env training-app
+  ```
+
+To remove the environment variable `cf unset-env` command must be used.
+
+* Remove environment variable
+  ```sh
+  cf unset-env training-app TRAINING_KEY_1
+  ```
+* Restart the app
+  ```sh
+  cf restage training-app
+  ```
+
+Cloud Foundry also injects configuration for the application via environment variables.
+
+* VCAP_APPLICATION: configuration and information about the application instance
+* VCAP_SERVICES: configuration to access service instances
+
+### Scaling
+
+* Horizontal Scaling
+  ```sh
+  cf scale -i 2 training-app
+  ```
+* Check the details of the app with `instances: 2/2` output
+  ```sh
+  cf app training-app
+  ```
+
+* Vertical Scaling
+  ```sh
+  cf scale -m 48M -k 256M training-app
+  ```
+* Also in manifest file
+  ```yml
+  applications:
+  - name: training-app
+    memory: 48M
+    disk-quota: 256M
+    instances: 2
+  ```
+
+### Logs
+
+* Print real-time logs 
+  ```sh
+  cf logs training-app
+  ```
+* Print recent logs
+  ```sh
+  cf logs --recent training-app
+  ```
+* Print events
+  ```sh
+  cf events training-app
+  ```
+
+### Resiliency
+
+Cloud Foundry supports resiliency for the scaled applications.
+
+* Log the application
+  ```sh
+  cf logs training-app
+  ```
+* Kill the application by calling `/kill` endpoint
+* Check application instances
+  ```sh
+  cf app training-app
+  ```
