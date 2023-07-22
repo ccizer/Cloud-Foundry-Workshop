@@ -32,6 +32,15 @@
         <li><a href="#deploying-your-first-app">Deploying your First App</a></li>
      </ul>
     </li>
+    <li><a href="#core-concepts">Core Concepts</a>
+      <ul>
+        <li><a href="#orgs-and-spaces">Orgs and Spaces</a></li>
+        <li><a href="#targeting">Targeting</a></li>
+        <li><a href="#scope-and-names">Scope and Names</a></li>
+        <li><a href="#guids-and-renaming">GUIDs and Renaming</a></li>
+        <li><a href="#deleting-app">Deleting App</a></li>
+      </ul>
+     </li>
   </ol>
 </details>
 
@@ -143,3 +152,72 @@ applications:
       - staticfile_buildpack
 ```
 
+<!-- Core Concepts -->
+## Core Concepts
+
+### Orgs and Spaces
+
+Organizations (orgs) and spaces represent logical divisions within a Cloud Foundry instance. 
+Orgs serve as the parent structure for spaces, and a single org can encompass multiple spaces.
+
+Orgs are frequently used to distinguish between tenants or projects. For instance, you might want to partition your Cloud Foundry instance 
+into distinct orgs for different business units. Within each org, you could create separate spaces for various stages of the lifecycle, such as development, staging, and production.
+
+Even though the usage of orgs and spaces is mandatory in Cloud Foundry, the way in which you employ them is entirely at your discretion.
+
+### Targeting
+
+* Show the current target (orgs and spaces)
+  ```sh
+  cf target
+  ```
+* Change the target  
+  ```sh
+  cf target -o <org> -s <space>
+  ```
+  
+### Scope and Names
+
+In the previous segment, we deployed an application to a space. All applications are deployed within a space, and each space is associated with a specific org (you cannot directly deploy an app to an org). As you will learn later in the course, other components, such as service instances and routes, are also assigned to specific spaces. Therefore, before you can manage the resources of a space, you need to target it first.
+
+When you used the cf push command to deploy the app, you provided a name for it (via the manifest), in this case, 'first-push'. By naming the app, you can refer to it more conveniently within Cloud Foundry. Although some commands may default to using these names (like when creating a route for your 'first-push' app), the names are primarily meant for human use. We will delve deeper into resource names later in this module.
+
+You can retrieve details of your app by using its name with the following command:
+
+  ```sh
+  cf app first-push
+  ```
+
+Since apps are confined to a specific space, their names must be unique within that space. However, the names don't have to be unique outside of that space. Therefore, you could have an app named 'first-push' in the development, staging, and production spaces. Likewise, other users can have their own 'first-push' app within their respective spaces.
+
+Resource names hold significant importance in Cloud Foundry. They are frequently used when executing actions with the CLI and, in certain scenarios, are set based on a default value. Consider the 'first-push' example once again. The app manifest contains `random_route: true`. This instruction tells Cloud Foundry to generate a random route for our app using the resource name.
+
+If the random-route directive hadn't been established, a default route would have been created, which would be based on the chosen resource name. In our example, the default route would look something like `http://first-push.<mydomain.io>`.
+
+### GUIDs and Renaming
+
+Along with resource names, objects created in Cloud Foundry are assigned a globally unique identifier (GUID). Like resource names, an object's GUID will sometimes be passed to CLI commands. Unlike resource names, guids are globally unique.
+
+You can rename certain objects in Cloud Foundry. When an object is renamed, the GUID does not change.
+
+* Print app details with guid
+  ```sh
+  cf app first-push --guid
+  ```
+* Rename the app 
+  ```sh
+  cf rename first-push renamed-app
+  ```
+* GUID is still same
+  ```sh
+  cf app first-push --guid
+  ```
+
+### Deleting App
+
+* Delete app command
+  ```sh
+  cf delete -r renamed-app
+  ```
+
+The `-r` flag tells Cloud Foundry to also delete the route.
