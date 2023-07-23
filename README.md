@@ -65,6 +65,12 @@
         <li><a href="#sharing-service-instance">Sharing Service Instance</a></li>
       </ul>
     </li>
+    <li><a href="#routes-and-domains">Routes and Domains</a>
+      <ul>
+        <li><a href="#routes-basics">Routes Basics</a></li>
+        <li><a href="#domains-basics">Domains Basics</a></li>
+      </ul>
+    </li>
   </ol>
 </details>
 
@@ -577,4 +583,47 @@ A service can be also binded using the manifest.yml file.
 * Print the available services
   ```sh
   cf service training-app-db
+  ```
+
+## Routes and Domains
+
+### Routes Basics
+
+* List routes
+  ```sh
+  cf routes
+  ```
+* Create route
+  ```sh
+  cf create-route <CF_APP_DOMAIN> --hostname <SOME_UNIQUE_HOSTNAME>
+  ```
+* Map route
+  ```sh
+  cf map-route training-app <CF_APP_DOMAIN> --hostname <SOME_UNIQUE_HOSTNAME>
+  ```
+* Check the new route on application details
+  ```sh
+  cf app training-app
+  ```
+* Unmap route
+  ```sh
+  cf unmap-route training-app <CF_APP_DOMAIN> --hostname <OLD_HOSTNAME>
+  ```
+* Delete route
+  ```sh
+  cf delete-route <CF_APP_DOMAIN> --hostname <OLD_HOSTNAME>
+  ```
+* Check the existing routes
+  ```sh
+  cf routes
+  ```
+
+### Domains Basics
+
+Apps.internal is the internal domain where the existing applications can connect to each other using that domain. 
+It cannot be connected outside of Cloud Foundry. 
+
+* List domains
+  ```sh
+  cf domains
   ```
