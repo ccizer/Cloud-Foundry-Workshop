@@ -71,6 +71,7 @@
         <li><a href="#domains-basics">Domains Basics</a></li>
       </ul>
     </li>
+    <li><a href="#app-revisions">App Revisions</a></li>
   </ol>
 </details>
 
@@ -627,3 +628,19 @@ It cannot be connected outside of Cloud Foundry.
   ```sh
   cf domains
   ```
+
+## App Revisions
+
+Older version of the code and configuration are kept as app revisions in Cloud Foundry to see the history of the app or roll back to a previous version.
+
+* List revisions
+  ```sh
+  cf revisions training-app
+  ```
+* Roll back to a previous revision
+  ```sh
+  cf rollback training-app --version <REVISION_NUMBER>
+  ```
+
+
+
