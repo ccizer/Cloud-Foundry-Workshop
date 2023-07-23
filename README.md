@@ -72,6 +72,7 @@
       </ul>
     </li>
     <li><a href="#app-revisions">App Revisions</a></li>
+    <li><a href="#reference">Reference</a></li>
   </ol>
 </details>
 
@@ -650,3 +651,6 @@ Older version of the code and configuration are kept as app revisions in Cloud F
   ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Reference
+
+* <a href="https://training.linuxfoundation.org/training/cloud-foundry-for-developers/">Cloud Foundry For Developers</a>
