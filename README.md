@@ -30,6 +30,7 @@
         <li><a href="#cli">The CLI</a></li>
         <li><a href="#using-cloud-foundry">Using a Cloud Foundry</a></li>
         <li><a href="#deploying-your-first-app">Deploying your First App</a></li>
+        <li><a href="#ssh-connection">SSH Connection</a></li>
      </ul>
     </li>
     <li><a href="#core-concepts">Core Concepts</a>
@@ -51,6 +52,19 @@
         <li><a href="#resiliency">Resiliency</a></li>
       </ul>
      </li>
+    <li><a href="#application-lifecycle">Application Lifecycle</a>
+      <ul>
+        <li><a href="#lifecycle-phases">Lifecycle Phases</a></li>
+        <li><a href="#containerized-application">Containerized Application</a></li>
+        <li><a href="#updating-strategies">Updating Strategies</a></li>
+      </ul>
+    </li>
+    <li><a href="#services">Services</a>
+      <ul>
+        <li><a href="#lifecycle-phases">Managed Services</a></li>
+        <li><a href="#sharing-service-instance">Sharing Service Instance</a></li>
+      </ul>
+    </li>
   </ol>
 </details>
 
@@ -161,6 +175,21 @@ applications:
     buildpacks: #This specifies the buildpack(s) to be used in containerizing your application. In this scenario, only the staticfile_buildpack is necessary.
       - staticfile_buildpack
 ```
+
+### SSH Connection
+
+* Check SSH is enabled
+  ```sh
+  cf ssh-enabled first-push
+  ```
+* Enable SSH connection
+   ```sh
+  cf enable-ssh first-push
+  ```
+* Connect to an app instance using ssh
+  ```sh
+  cf ssh first-push -i 0
+  ```
 
 <!-- Core Concepts -->
 ## Core Concepts
@@ -399,4 +428,153 @@ Cloud Foundry supports resiliency for the scaled applications.
 * Check application instances
   ```sh
   cf app training-app
+  ```
+## Application Lifecycle
+
+### Lifecycle Phases
+
+There are three stages that `push` command contains
+
+* Uploading: loads the source files
+* Staging: creates the container image
+* Starting: runs the containerized application
+
+Also, there three ways to roll out an update on the application
+
+* `restart`: same code, same config, same image, new container instance (no content/code change, only restart application)
+* `restage`: same code, new config, new image, new container (ex. adding a binding service)
+* `push`: new code, new config, new image, new container (code change)
+
+### Containerized Application
+
+Containerized application includes the app code, runtime dependencies, stack, deployment and application configurations.
+
+* The app code and runtime dependencies are combined in a unit called a "droplet" during the staging process.
+* A deployment configuration contains the values located in the manifest.yml file like instances, quotas, memory buildpacks etc.
+* Developers should provide app code, runtime (buildpacks) and deployment configuration.
+* A Stack is the prebuild filesystem used in constructing the container image.
+* An application configuration consists of the environment variables and the default variables injected by Cloud Foundry which are VCAP_APPLICATION and VCAP_SERVICES.
+        
+### Updating Strategies
+
+When updating an application, `--strategy rolling` flag can be used for all restart/restage/re-push commands to provide zero downtime deployments.
+If it is not used, all application instances will be stopped at the same time. With `--strategy rolling`, application instances are updated one at a time.
+
+* Change directory to updating-app
+  ```sh
+  cd resources/updating-app 
+  ```
+* Push the updating-app
+  ```sh
+  cf push 
+  ```
+* Watch the application output in a different terminal tab
+  ```sh
+  watch -n 0.5 curl -L <ROUTE-TO-YOUR-APP> 
+  ```
+* Watch the application detail in a different terminal tab
+  ```sh
+  watch cf app updating-app
+  ```
+* Change the color from BLUE to GREEN in index.html
+* Update the application with `--strategy rolling` command
+  ```sh
+  cf push --strategy rolling
+  ```
+
+The deployment can be canceled with the `cancel-deployment` command.
+
+* Change the color from GREEN to RED in index.html
+* Update the application with `--strategy rolling --no-wait` command
+  ```sh
+  cf push --strategy rolling --no-wait
+  ```
+* Cancel the deployment
+  ```sh
+  cf cancel-deployment updating-app
+  ```
+  
+## Services
+
+### Managed Services
+
+Cloud Foundry provides managed services ,the ability to discover and provision services like a database or message queue, 
+when an application requires to connect to external services.
+
+* List marketplace
+  ```sh
+  cf marketplace
+  ```
+* Show details of a service
+  ```sh
+  cf marketplace -e <SERVICE_NAME>
+  ```
+* Provision a service instance
+  ```sh
+  cf create-service a9s-postgresql11 postgresql-single-nano training-app-db
+  ```
+* List provisioned services 
+  ```sh
+  cf services
+  ```
+* Bind the service to an application
+  ```sh
+  cf bind-service training-app training-app-db
+  ```
+* Print environment variables to see the credentials in VCAP_SERVICES 
+  ```sh
+  cf env training-app
+  ```
+* Restart (or restage) the application to pick up the config change in the environment
+  ```sh
+  cf restart training-app
+  ```
+A service can be also binded using the manifest.yml file.
+
+  ```yml
+  services:
+    - training-app-db
+   ```
+* Unused service can be unbinded 
+  ```sh
+  cf unbind-service training-app training-app-db
+  ```
+* Print environment variables to see the credentials were removed in VCAP_SERVICES
+  ```sh
+  cf env training-app
+  ```
+* Restart (or restage) the application to pick up the config change in the environment
+  ```sh
+  cf restart training-app
+  ```
+* Deprovision the service instance
+  ```sh
+  cf delete-service training-app-db
+  ```
+
+### Sharing Service Instance
+
+* Share service instance on another space
+  ```sh
+  cf share-service training-app-db -s services
+  ```
+* Change the target to the services space
+  ```sh
+  cf target -s services
+  ```
+* Print the available services
+  ```sh
+  cf service training-app-db
+  ```
+* Unshare the instance
+  ```sh
+  cf unshare-service training-app-db -s services
+  ```
+* Change the target to the services space
+  ```sh
+  cf target -s services
+  ```
+* Print the available services
+  ```sh
+  cf service training-app-db
   ```
