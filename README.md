@@ -104,6 +104,7 @@ Before you begin utilizing Cloud Foundry, there are several preliminary steps th
 * A preferred IDE or Text Editor
 * JDK8 (Optional)
 * Maven (Optional)
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Getting Started -->
 ## Getting Started
@@ -197,6 +198,7 @@ applications:
   ```sh
   cf ssh first-push -i 0
   ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Core Concepts -->
 ## Core Concepts
@@ -267,6 +269,7 @@ You can rename certain objects in Cloud Foundry. When an object is renamed, the 
   ```
 
 The `-r` flag tells Cloud Foundry to also delete the route.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Application Basics -->
 ## Application Basics
@@ -436,6 +439,8 @@ Cloud Foundry supports resiliency for the scaled applications.
   ```sh
   cf app training-app
   ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Application Lifecycle
 
 ### Lifecycle Phases
@@ -500,7 +505,8 @@ The deployment can be canceled with the `cancel-deployment` command.
   ```sh
   cf cancel-deployment updating-app
   ```
-  
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Services
 
 ### Managed Services
@@ -585,6 +591,7 @@ A service can be also binded using the manifest.yml file.
   ```sh
   cf service training-app-db
   ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Routes and Domains
 
@@ -641,6 +648,5 @@ Older version of the code and configuration are kept as app revisions in Cloud F
   ```sh
   cf rollback training-app --version <REVISION_NUMBER>
   ```
-
-
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
