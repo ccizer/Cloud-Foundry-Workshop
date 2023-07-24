@@ -21,11 +21,11 @@
 4. Push the application with the vars file
 5. Check the logs for the active profile and any errors
 6. Provision a mariadb database with free plan and then bind it to the application
-7. Check the environment variables and the application detail
-8. Unmap and remove default route
+7. Check the environment variables and the application details
+8. (Optional) Unmap and remove default route
 9. Make a change in the code and deploy the application using the strategy rolling flag
 10. Rollback to a previous version
-11. (Optional) Share the database service and deploy the application to another space. 
+11. Share the database service and deploy the application to another space. 
 
 ### Tips and Tricks
 
@@ -34,3 +34,8 @@
 * Route should be defined as `routes: - route:` in the manifest.yml
 * `VCAP_SERVICES` credentials are set as properties by Spring Boot automatically
 * To deploy another the application to another space, remove the existing one
+* Domain must always be set as `de.a9sapp.eu`
+* Example get call: `curl customer-app-test.de.a9sapp.eu`
+* Example post call: `curl -X POST customer-app-test.de.a9sapp.eu \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Can"}' `
