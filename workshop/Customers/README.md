@@ -25,7 +25,8 @@
 8. (Optional) Unmap and remove default route
 9. Make a change in the code and deploy the application using the strategy rolling flag
 10. Rollback to a previous version
-11. Share the database service and deploy the application to another space. 
+11. Share the database service and deploy the application to another space
+12. Remove all the resources
 
 ### Tips and Tricks
 
