@@ -12,7 +12,7 @@
     A brief introduction to Cloud Foundry  
     <br />
     <br />
-    <a href="https://github.com/ccizer/Cloud-Foundry-Workshop/tree/main/workshop">Workshop</a>
+    <a href="https://github.com/ccizer/Cloud-Foundry-Workshop/tree/main/workshop/Customers">Workshop</a>
     ·
     <a href="https://github.com/ccizer/Cloud-Foundry-Workshop/tree/main/resources">Resources</a>
   </p>
