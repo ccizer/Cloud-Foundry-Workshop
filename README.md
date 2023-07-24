@@ -103,8 +103,8 @@ Before you begin utilizing Cloud Foundry, there are several preliminary steps th
   ```
 * Register to the Service Provider <a href="https://paas.anynines.com/">Anynines</a>
 * A preferred IDE or Text Editor
-* JDK8 (Optional)
-* Maven (Optional)
+* JDK8
+* Maven
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Getting Started -->
