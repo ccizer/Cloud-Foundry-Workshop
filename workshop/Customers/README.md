@@ -38,10 +38,13 @@
    * `cf push --vars-file=<vars-file.yml> --strategy rolling`
 10. Rollback to a previous version
     * `cf rollback customer-app --version <VERSION_NUMBER>`
-11. Share the database service and deploy the application to another space.
+11. Share the database service and deploy the application to another space
     * `cf share-service customer-app-db -s stage`
     * `cf push --vars-file=customer-app_stage.yml>`
     * `cf bind-service customer-app customer-app-db`
+12. Remove all resources
+    * `cf delete -r customer-app`
+    * `cf delete-service -f customer-app-db`
 
 ### Tips and Tricks
 
