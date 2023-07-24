@@ -50,6 +50,7 @@
 * Route should be defined as `routes: - route:` in the manifest.yml
 * `VCAP_SERVICES` credentials are set as properties by Spring Boot automatically
 * To deploy another the application to another space, remove the existing one
+* Domain must always be set as `de.a9sapp.eu`
 * Example get call: `curl customer-app-test.de.a9sapp.eu`
 * Example post call: `curl -X POST customer-app-test.de.a9sapp.eu \
   -H "Content-Type: application/json" \
