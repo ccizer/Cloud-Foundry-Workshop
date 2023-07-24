@@ -1,0 +1,3 @@
+instance: 1
+route: customer-app-prod.de.a9sapp.eu
+profile: prod

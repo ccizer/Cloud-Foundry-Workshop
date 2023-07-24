@@ -1,0 +1,12 @@
+applications:
+- name: customer-app
+  memory: 768M
+  disk_quota: 256M
+  instances: ((instance))
+  routes:
+    - route: ((route))
+  path: target/Customers-0.0.1-SNAPSHOT.jar
+  buildpacks:
+  - java_buildpack
+  env:
+    SPRING_PROFILES_ACTIVE: ((profile))
