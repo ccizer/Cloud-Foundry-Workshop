@@ -40,3 +40,5 @@
 * Example post call: `curl -X POST customer-app-test.de.a9sapp.eu \
   -H "Content-Type: application/json" \
   -d '{"name": "Can"}' `
+
+You can find the solutions in the `solution` branch of the project.
