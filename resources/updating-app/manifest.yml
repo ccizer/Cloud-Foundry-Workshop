@@ -2,7 +2,7 @@
 applications:
 - name: updating-app
   memory: 32M
-  instances: 5
+  instances: 3
   buildpacks:
   - staticfile_buildpack
   random-route: true
