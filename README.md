@@ -31,6 +31,7 @@
         <li><a href="#using-cloud-foundry">Using a Cloud Foundry</a></li>
         <li><a href="#deploying-your-first-app">Deploying your First App</a></li>
         <li><a href="#ssh-connection">SSH Connection</a></li>
+        <li><a href="#logs">Logs</a></li>
      </ul>
     </li>
     <li><a href="#core-concepts">Core Concepts</a>
@@ -48,7 +49,6 @@
         <li><a href="#manifests">Manifests</a></li>
         <li><a href="#buildpacks">Buildpacks</a></li>
         <li><a href="#scaling">Scaling</a></li>
-        <li><a href="#logs">Logs</a></li>
         <li><a href="#resiliency">Resiliency</a></li>
       </ul>
      </li>
@@ -199,6 +199,21 @@ applications:
   ```sh
   cf ssh first-push -i 0
   ```
+### Logs
+
+* Print real-time logs
+  ```sh
+  cf logs training-app
+  ```
+* Print recent logs
+  ```sh
+  cf logs --recent training-app
+  ```
+* Print events
+  ```sh
+  cf events training-app
+  ```
+  
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Core Concepts -->
@@ -410,21 +425,6 @@ Cloud Foundry also injects configuration for the application via environment var
     memory: 48M
     disk-quota: 256M
     instances: 2
-  ```
-
-### Logs
-
-* Print real-time logs 
-  ```sh
-  cf logs training-app
-  ```
-* Print recent logs
-  ```sh
-  cf logs --recent training-app
-  ```
-* Print events
-  ```sh
-  cf events training-app
   ```
 
 ### Resiliency
