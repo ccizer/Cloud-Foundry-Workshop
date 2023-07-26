@@ -26,9 +26,7 @@
 9. Make a change in the code and deploy the application using the strategy rolling flag
 10. Rollback to a previous version
 11. Share the database service and deploy the application to another space
-12. (Optional) Run Stratos using docker and connect it to the service provider
-13. (Optional) Provision the Autoscaler and create a rule on Stratos
-14. Remove all the resources
+12. Remove all the resources
 
 ### Tips and Tricks
 
