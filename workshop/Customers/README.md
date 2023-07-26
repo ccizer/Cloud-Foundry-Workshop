@@ -42,7 +42,12 @@
     * `cf share-service customer-app-db -s stage`
     * `cf push --vars-file=customer-app_stage.yml>`
     * `cf bind-service customer-app customer-app-db`
-12. Remove all resources
+12. (Optional) Run Stratos using docker and connect it to the service provider
+    * `docker run -p 4443:5443 splatform/stratos:latest`
+13. (Optional) Provision the Autoscaler and create a rule on Stratos
+    * `cf create-service autoscaler autoscaler <AUTOSCALER_NAME>`
+    * `cf bind-service <APP_NAME> <AUTOSCALER_NAME>`
+14. Remove all resources
     * `cf delete -r customer-app`
     * `cf delete-service -f customer-app-db`
 
