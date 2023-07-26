@@ -71,7 +71,13 @@
         <li><a href="#domains-basics">Domains Basics</a></li>
       </ul>
     </li>
-    <li><a href="#app-revisions">App Revisions</a></li>
+    <li><a href="#advanced-topicss">Advanced Topics</a>
+      <ul>
+        <li><a href="#app-revisions">App Revisions</a></li>
+        <li><a href="#stratos">Stratos</a></li>
+        <li><a href="#autoscaler">Autoscaler</a></li>
+      </ul>
+    </li>
     <li><a href="#reference">Reference</a></li>
   </ol>
 </details>
@@ -637,7 +643,9 @@ It cannot be connected outside of Cloud Foundry.
   cf domains
   ```
 
-## App Revisions
+## Advanced Topics
+
+### App Revisions
 
 Older version of the code and configuration are kept as app revisions in Cloud Foundry to see the history of the app or roll back to a previous version.
 
@@ -649,6 +657,37 @@ Older version of the code and configuration are kept as app revisions in Cloud F
   ```sh
   cf rollback training-app --version <REVISION_NUMBER>
   ```
+### Stratos
+
+Stratos is the UI designed for the developers to manage Cloud Foundry in a more visual and easier way.
+
+* Run Stratos with docker container
+  ```sh
+  docker run -p 4443:5443 splatform/stratos:latest
+  ```
+* Login to the application using the link `https://localhost:4443`
+  * Select Local Admin
+    <br/>
+    <img src="images/localadmin.png" alt="localadmin" width="600" height="300">
+  * Setup Admin
+    <br/>
+    <img src="images/setupadmin.png" alt="setupadmin" width="600" height="200">
+  * Register Endpoint
+    <br/>
+    <img src="images/registerendpoint.png" alt="registerendpoint" width="600" height="200">
+  * Select Cloud Foundry
+    <br/>
+    <img src="images/selectcloudfoundry.png" alt="selectcloudfoundry" width="600" height="200">
+  * Enter Entrypoint
+    <br/>
+    <img src="images/enterentrypoint.png" alt="enterentrypoint" width="600" height="200">
+  * Enter Credentials
+    <br/>
+    <img src="images/entercredentials.png" alt="entercredentials" width="600" height="200">
+  * Homepage
+    <br/>
+    <img src="images/homepage.png" alt="homepage" width="600" height="200">
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Reference
