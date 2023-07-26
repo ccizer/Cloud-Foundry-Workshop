@@ -71,7 +71,7 @@
         <li><a href="#domains-basics">Domains Basics</a></li>
       </ul>
     </li>
-    <li><a href="#advanced-topicss">Advanced Topics</a>
+    <li><a href="#advanced-topics">Advanced Topics</a>
       <ul>
         <li><a href="#app-revisions">App Revisions</a></li>
         <li><a href="#stratos">Stratos</a></li>
@@ -642,6 +642,7 @@ It cannot be connected outside of Cloud Foundry.
   ```sh
   cf domains
   ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Advanced Topics
 
