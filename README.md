@@ -688,6 +688,29 @@ Stratos is the UI designed for the developers to manage Cloud Foundry in a more 
     <br/>
     <img src="images/homepage.png" alt="homepage" width="600" height="200">
 
+## Autoscaler
+
+Autoscaler scales the applications automatically based on the performance metrics or a scheduler. Autoscaler can be provisioned and then 
+binded to the applications just like the other services.
+
+* Create Autoscaler service
+  ```sh
+  cf create-service autoscaler autoscaler training-app-autoscaler
+  ```
+* Bind Autoscaler to the application
+  ```sh
+  cf bind-service training-app training-app-autoscaler
+  ```
+* Login Stratos, select the application and then the Autoscale menu item
+  <br/>
+  <img src="images/autoscale.png" alt="autoscale" width="600" height="300">
+* Click Create Policy and set min/max instance count
+  <br/>
+  <img src="images/instance.png" alt="instance" width="600" height="175">
+* Add a new scaling policy
+  <br/>
+  <img src="images/scalingrule.png" alt="scalingrule" width="600" height="175">
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Reference
