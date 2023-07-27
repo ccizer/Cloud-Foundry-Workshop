@@ -31,25 +31,27 @@
 7. Check the environment variables and the application detail
    * `cf env customer-app`
    * `cf app customer-app`
-8. (Optional) Unmap and remove default route 
+8. Test application endpoints using postman tool or curl command on terminal
+9. (Optional) Unmap and remove default route 
    * `cf unmap-route customer-app de.a9sapp.eu --hostname <DEFAULT_ROUTE_NAME>`
    * `cf delete-route de.a9sapp.eu --hostname <DEFAULT_ROUTE_NAME>`
-9. Make a change in the code and deploy the application using the strategy rolling flag
-   * `cf push --vars-file=<vars-file.yml> --strategy rolling`
-10. Rollback to a previous version
+10. (Optional) Make a change in the code and deploy the application using the strategy rolling flag
+    * `cf push --vars-file=<vars-file.yml> --strategy rolling`
+11. Rollback to a previous version
     * `cf rollback customer-app --version <VERSION_NUMBER>`
-11. Share the database service and deploy the application to another space
-    * `cf share-service customer-app-db -s stage`
-    * `cf push --vars-file=customer-app_stage.yml>`
+12. Share the database service and deploy the application to another space (!)
+    * `cf share-service customer-app-db -s staging`
+    * `cf push --vars-file=customer-app_stage.yml`
     * `cf bind-service customer-app customer-app-db`
-12. (Optional) Run Stratos using docker and connect it to the service provider
+13. Run Stratos using docker and connect it to the service provider
     * `docker run -p 4443:5443 splatform/stratos:latest`
-13. (Optional) Provision the Autoscaler and create a rule on Stratos
-    * `cf create-service autoscaler autoscaler <AUTOSCALER_NAME>`
-    * `cf bind-service <APP_NAME> <AUTOSCALER_NAME>`
-14. Remove all resources
+14. Provision the Autoscaler and create a rule on Stratos
+    * `cf create-service autoscaler autoscaler customer-app-autoscaler`
+    * `cf bind-service customer-app customer-app-autoscaler`
+15. Remove all resources
     * `cf delete -r customer-app`
     * `cf delete-service -f customer-app-db`
+    * `cf delete-service -f customer-app-autoscaler`
 
 ### Tips and Tricks
 
@@ -57,7 +59,7 @@
 * Do not forget to run the commands `restart/restage` the application after a change
 * Route should be defined as `routes: - route:` in the manifest.yml
 * `VCAP_SERVICES` credentials are set as properties by Spring Boot automatically
-* To deploy another the application to another space, remove the existing one
+* (!) To deploy another the application to another space, remove the existing one
 * Domain must always be set as `de.a9sapp.eu`
 * Example get call: `curl customer-app-test.de.a9sapp.eu`
 * Example post call: `curl -X POST customer-app-test.de.a9sapp.eu \
