@@ -32,23 +32,28 @@
    * `cf env customer-app`
    * `cf app customer-app`
 8. Test application endpoints using postman tool or curl command on terminal
-9. (Optional) Unmap and remove default route 
-   * `cf unmap-route customer-app de.a9sapp.eu --hostname <DEFAULT_ROUTE_NAME>`
-   * `cf delete-route de.a9sapp.eu --hostname <DEFAULT_ROUTE_NAME>`
-10. (Optional) Make a change in the code and deploy the application using the strategy rolling flag
-    * `cf push --vars-file=<vars-file.yml> --strategy rolling`
-11. Rollback to a previous version
-    * `cf rollback customer-app --version <VERSION_NUMBER>`
-12. Share the database service and deploy the application to another space (!)
-    * `cf share-service customer-app-db -s staging`
-    * `cf push --vars-file=customer-app_stage.yml`
-    * `cf bind-service customer-app customer-app-db`
-13. Run Stratos using docker and connect it to the service provider
+9. Run Stratos using docker and connect it to the service provider
     * `docker run -p 4443:5443 splatform/stratos:latest`
-14. Provision the Autoscaler and create a rule on Stratos
+10. Provision the Autoscaler and create a scale rule on Stratos
     * `cf create-service autoscaler autoscaler customer-app-autoscaler`
     * `cf bind-service customer-app customer-app-autoscaler`
-15. Remove all resources
+11. Share the database service and deploy the application to another space (!)
+    * `cf share-service customer-app-db -s staging`
+    * `cf delete -r customer-app`
+    * `cf target -s staging`
+    * `cf push --vars-file=customer-app_stage.yml`
+    * `cf bind-service customer-app customer-app-db`
+12. Create/map a new route and unmap/delete old one
+    * `cf create-route de.a9sapp.eu --hostname <NEW_ROUTE_NAME>`
+    * `cf map-route customer-app de.a9sapp.eu --hostname <NEW_ROUTE_NAME>`
+    * `cf unmap-route customer-app de.a9sapp.eu --hostname <OLD_ROUTE_NAME>`
+    * `cf delete-route de.a9sapp.eu --hostname <OLD_ROUTE_NAME>`
+13. Test application endpoints using postman tool or curl command on terminal again
+14. (Optional) Make a change in the code and deploy the application using the strategy rolling flag
+    * `cf push --vars-file=<vars-file.yml> --strategy rolling`
+15. (Optional) Rollback to a previous version
+    * `cf rollback customer-app --version <VERSION_NUMBER>`
+16. Remove all resources
     * `cf delete -r customer-app`
     * `cf delete-service -f customer-app-db`
     * `cf delete-service -f customer-app-autoscaler`
