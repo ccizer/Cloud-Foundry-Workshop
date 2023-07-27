@@ -22,13 +22,15 @@
 5. Check the logs for the active profile and any errors
 6. Provision a mariadb database with free plan and then bind it to the application
 7. Check the environment variables and the application details
-8. (Optional) Unmap and remove default route
-9. Make a change in the code and deploy the application using the strategy rolling flag
-10. Rollback to a previous version
-11. Share the database service and deploy the application to another space
-12. (Optional) Run Stratos using docker and connect it to the service provider
-13. (Optional) Provision the Autoscaler and create a rule on Stratos
-14. Remove all the resources
+8. Test application endpoints using postman tool or curl command on terminal
+9. Run Stratos using docker and connect it to the service provider
+10. Provision the Autoscaler and create a scale rule on Stratos
+11. Share the database service and deploy the application to another space (!)
+12. Create/map a new route and unmap/delete old one
+13. Test application endpoints using postman tool or curl command on terminal again
+14. (Optional) Make a change in the code and deploy the application using the strategy rolling flag
+15. (Optional) Rollback to a previous version
+16. Remove all resources
 
 ### Tips and Tricks
 
@@ -36,7 +38,7 @@
 * Do not forget to run the commands `restart/restage` the application after a change
 * Route should be defined as `routes: - route:` in the manifest.yml
 * `VCAP_SERVICES` credentials are set as properties by Spring Boot automatically
-* To deploy another the application to another space, remove the existing one
+* (!) To deploy another the application to another space, remove the existing one
 * Domain must always be set as `de.a9sapp.eu`
 * Example get call: `curl customer-app-test.de.a9sapp.eu`
 * Example post call: `curl -X POST customer-app-test.de.a9sapp.eu \

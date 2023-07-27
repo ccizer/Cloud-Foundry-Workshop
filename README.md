@@ -305,7 +305,6 @@ To specify the source path `--path (or -p)` flag can be used or it can be specif
 
  ```yml
  applications:
-   ...
    path: /path/to/app/bits
  ```
 
@@ -392,7 +391,15 @@ To inject configuration values into application, environment variables are used.
   ```sh
   cf env training-app
   ```
+Environment variables can be defined in `manifest.yml` as well.
 
+* Set environment variable in manifest.yml
+  ```yml
+  application:
+     env:
+       profile: test
+  ```
+  
 To remove the environment variable `cf unset-env` command must be used.
 
 * Remove environment variable
